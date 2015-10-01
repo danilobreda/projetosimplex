@@ -77,13 +77,20 @@
 				</fieldset>
 				<fieldset><legend><b>Parâmetros</b></legend>
 					<table width="100%">
+						<tr align="center">
+							<td>Qtde. Máxima Iterações: <input type="text" name="qtdemaxima" id="qtdeMaximaIteracoes" tabindex="3" size="5"></td>
+							<td><input type="checkbox" name="somenteresultado" id="ckbImprimirResultado" tabindex="4">Imprimir somente o resultado</td>
+						</tr>
+					</table>
+				</fieldset>
+				<table><tr><td></tr></table>
+				<fieldset>
+					<table align="center">
 						<tr>
-							<td>Qtde. Máxima Iterações: </td>
-							<td><input type="text" name="qtdemaxima" id="qtdeMaximaIteracoes" tabindex="3" size="10"></td>
-							<td style="width: 200px"></td>
-							<td><input type="checkbox" name="somenteresultado" id="ckbImprimirResultado" tabindex="4"></td>
-							<td>Imprimir somente o resultado</td>
-							<td><input type="submit" tabindex="-1" value="PROCESSAR" style="width: 100px; height: 30px;"></td>
+							<td>
+								<input type="button" id="btnCancelar" value="Cancelar" tabindex="-1" style="width: 100px; height: 30px;">
+								<input type="submit" id="btnProcessar" value="Processar" tabindex="-1"  style="width: 100px; height: 30px;">
+							</td>
 						</tr>	
 					</table>	
 				</fieldset>		
