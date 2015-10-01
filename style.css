@@ -1,0 +1,27 @@
+.field{
+    border-color:blue;
+    border-style: solid;
+	font-weight: bold;
+	font-size: 20px;
+	field-
+}
+
+
+
+th {
+	font-size: 50px;
+    border: 20px;
+    color: black;
+}
+
+.form{
+		margin: auto;
+		width: 60%;
+		padding: 10px;
+}
+
+.table{
+		margin: 0px auto;
+		margin-top: 13%;
+}
+
