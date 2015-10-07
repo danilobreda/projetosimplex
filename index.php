@@ -43,8 +43,17 @@
 						<fieldset class="field"><legend>Função Objetivo</legend>
 							<table align="center">
 								<tr>
-									<td>Max: Z = </td>
-									<td><input name="funcao" type="text" id="funcaoObjetivo" tabindex="1" size="70"></td>
+									<td colspan="2">
+										Exemplo: 3x1 + 5x2 + 6x3
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p>Max: Z =</p>
+									</td>
+									<td>
+										<input name="funcao" type="text" id="funcaoObjetivo" tabindex="1" size="70">
+									</td>	
 								</tr>
 							</table>
 						</fieldset>
@@ -56,10 +65,15 @@
 							<br/>
 							<table align="center">
 								<tr>
+									<td colspan="2">
+										Exemplo: 3x1 + 5x2  <=  2000	
+									</td>
+								</tr>
+								<tr>
 									<td>
 									<div ng-repeat="item in items">
 										Sujeito a :
-										<input name="sujeito[]" type="text" id="regras" tabindex="2" size="40" > <= <input name="sujeito2[]" type="text" id="regras" tabindex="2" size="5">
+										<input name="sujeito[]" type="text" id="regras" tabindex="2" size="20" > <= <input name="sujeito2[]" type="text" id="regras" tabindex="2" size="5">
 										<input type="button" id="btnRemover" value="Remover" style="width: 70px; height: 23px;" ng-click="remover($index)">
 										<br/>
 									</div>
