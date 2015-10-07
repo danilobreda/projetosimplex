@@ -22,6 +22,7 @@
 	
 	/////////////////////////////////////////////////
 	//PRINTA INICIO:
+	echo "<h1>Informações Iniciais:</h1>";
 	
 	PrintaInicio($funcao, $sujeito, $regraselementovalor, $qtdemaxima);
 	/////////////////////////////////////////////////
@@ -72,16 +73,17 @@
 	/////////////////////////////////////////////////
 	//definindo as bases:
 	$index = 0;
-	for ($i = 0 ; $i < count($regraselementovalor) ; $i++) 
-	{
-		$arraytodasbase[$index][0] = "f".($i+1);
-		$arraytodasbase[$index][1] = $regraselementovalor[$i];
-		$index++;
-	}
 	for ($i = 0 ; $i < count($funcaoelementos) ; $i++) 
 	{
 		$arraytodasbase[$index][0] = "x".($i+1);
 		$arraytodasbase[$index][1] = 0;
+		$index++;
+	}
+	
+	for ($i = 0 ; $i < count($regraselementovalor) ; $i++) 
+	{
+		$arraytodasbase[$index][0] = "f".($i+1);
+		$arraytodasbase[$index][1] = $regraselementovalor[$i];
 		$index++;
 	}
 	//print_r($arraytodasbase);
@@ -93,7 +95,7 @@
 	$finalx = 0;
 	for ($x = 0 ; $x < count($regraselementovalor); $x++) 
 	{
-		$arraytabelabase[$x] = $arraytodasbase[$x][0];
+		$arraytabelabase[$x] = $arraytodasbase[$x + (count($regraselementovalor) - 1)][0];
 		$finalx = $x;
 	}
 		$arraytabelabase[$finalx + 1] = "z";
@@ -144,10 +146,13 @@
 			else//DEFININDO OUTRAS LINHAS
 			{
 				//definindo F
-				if($arraytabelabase[$x] == $arraytabelacolunas[$y])
-					$arraytabela[$x][$y] = 1;
-				else
-					$arraytabela[$x][$y] = 0;
+				if($y <= count($arraytodasbase))
+				{
+					if($arraytabelabase[$x] == $arraytabelacolunas[$y]) // -1 pra tirar o Z 
+						$arraytabela[$x][$y] = 1;
+					else
+						$arraytabela[$x][$y] = 0;
+				}
 				
 				//definindo X
 				if(strpos($arraytabelacolunas[$y],'x') !== false)//ve se x tem dentro
@@ -168,7 +173,7 @@
 				{
 					if($primeirob == -1)
 						$primeirob = $x;
-					$arraytabela[$x][$y] = $arraytodasbase[$x - $primeirob][1];
+					$arraytabela[$x][$y] = $arraytodasbase[$x - $primeirob + count($regraselementovalor) - 1][1];
 				}
 			}
 			//echo $arraytabelabase[$x]."+".$arraytabelacolunas[$y]."=".$arraytabela[$x][$y];
@@ -178,11 +183,231 @@
 	
 	/////////////////////////////////////////////////
 	//PRINTA TABELA:
+	if(!$somenteresultado)
+		echo "<h1>Tabela Inicial:</h1>";
 	
-	PrintaTabela($arraytabelabase, $arraytabelacolunas, $arraytabela);
+	if(!$somenteresultado)
+		PrintaTabela($arraytabelabase, $arraytabelacolunas, $arraytabela);
 	
 	/////////////////////////////////////////////////
+	//PROCESSO:
+	
+	$tentativas = 0;
+	do
+	{
+		$YLETRA;
+		$XLETRA;
+		if(!$somenteresultado)
+			echo "<h1> Iteracao: ".($tentativas + 1)."</h1>";
+		/////////////////////////////////////////////////
+		//MENOR VALOR DA TABELA:
+		$menorindicey = -1;//coluna do menor valor
+		$menorvalor = 99999999;//menor valor encontrado
+		for ($x = 0 ; $x < count($arraytabelabase) ; $x++) 
+		{
+			for ($y = 0 ; $y < count($arraytabelacolunas) - 1; $y++)//-1 pois tirei o ultimo elemento 'b'
+			{
+				if($menorvalor >= $arraytabela[$x][$y])
+				{
+					$menorvalor = $arraytabela[$x][$y];
+					//$menorindicex = $x;
+					$menorindicey = $y;
+				}
+			}
+		}
+		if(!$somenteresultado)
+			echo "<h2> Menor valor encontrado: ".$menorvalor. "</h2>";
+		
+		/////////////////////////////////////////////////
+		//MENOR VALOR DA TABELA:
+		$arraymenorvalorentrarbase = array();
+		for ($x = 0 ; $x < count($arraytabelabase) - 1; $x++) //-1 pois o 'Z' nao pode entrar.
+		{
+			for ($y = 0 ; $y < count($arraytabelacolunas) - 1; $y++)//-1 pois tirei o ultimo elemento 'b'
+			{
+				if($y == $menorindicey)
+				{
+					if($arraytabela[$x][$y] == 0)
+					{
+						$arraymenorvalorentrarbase[$x][0] = null;
+					}
+					else
+					{
+						$arraymenorvalorentrarbase[$x][0] = ($arraytabela[$x][count($arraytabelacolunas) - 1] / $arraytabela[$x][$y]);
+						$arraymenorvalorentrarbase[$x][1] = $arraytabelabase[$x];//qual letra que o represente;
+					}
+				}
+			}
+		}
+		if(!$somenteresultado)
+		{
+			echo "<h2>Efetuando divisão: </h2> <br/>";
+			PrintaTabelaMenorValor($arraymenorvalorentrarbase);
+			echo "<br/>";
+		}
+		
+		/////////////////////////////////////////////////
+		//MENOR VALOR DA TABELA:
+		$menorvalorentrarbaseX = -1;		
+		$menorvalorentrarbase = 99999999;
+		for ($x = 0 ; $x < count($arraymenorvalorentrarbase) ; $x++) 
+		{
+			if($arraymenorvalorentrarbase[$x][0] !== null)
+			{
+				if($arraymenorvalorentrarbase[$x][0] <= $menorvalorentrarbase)
+				{
+					$menorvalorentrarbase = $arraymenorvalorentrarbase[$x][0];
+					$menorvalorentrarbaseX = $x;
+					$XLETRA = $arraymenorvalorentrarbase[$x][1];
+				}
+			}			
+		}
+		//echo "DEBUG: XLETRA: ".$XLETRA." Valor: ".$menorvalorentrarbase."<br/>";
+		
+		$YLETRA = $arraytabelacolunas[$menorindicey];
+		
+		//echo "DEBUG: YLETRA: ".$YLETRA;
+		
+		if(!$somenteresultado)
+		{
+			echo "<h2>Menor valor encontrado apos a divisao: ".$menorvalorentrarbase."</h2>";
+			echo "<h2>Entra: ".$YLETRA. " Sai: ". $XLETRA."</h2>";
+		}
+		
+		/////////////////////////////////////////////////
+		//TIRANDO VALOR NOVO E COLOCANDO OUTRO NA COLUNA E BASE:
+		for($x = 0; $x < count($arraytabelabase); $x++)
+		{
+			if ($arraytabelabase[$x] == $XLETRA)
+			   $arraytabelabase[$x] = $YLETRA;
+		}
+
+		/////////////////////////////////////////////////
+		//CALCULANDO PIVO:
+		$pivox = $menorvalorentrarbaseX;
+		$pivoy = $menorindicey;
+		$pivo = $arraytabela[$pivox][$pivoy];
+		
+		if(!$somenteresultado)
+		{
+			echo "<h2>Pivo: ".$pivo."</h2>";
+		}
+		
+		/////////////////////////////////////////////////
+		//DIVIDE A LINHA TODA PELO PIVO:
+		
+		for ($y = 0 ; $y < count($arraytabelacolunas); $y++)
+		{
+			$arraytabela[$pivox][$y] = $arraytabela[$pivox][$y] / $pivo;
+		}
+		
+		/////////////////////////////////////////////////
+		//PRINTA TABELA:
+	
+		if(!$somenteresultado)
+		{
+			echo "<h2>Tabela Após dividir pelo pivo:</h2>";
+			PrintaTabela($arraytabelabase, $arraytabelacolunas, $arraytabela);
+		}
+		
+		/////////////////////////////////////////////////
+		//TROCANDO AS OUTRAS LINHAS:
+		if(!$somenteresultado)
+			echo "<h2>Tabela Após processo de divisao por linha:</h2>";
+		//echo "DEBUG: pivox+1: ".($pivox + 1);
+		for($x = $pivox + 1; $x <= count($arraytabelabase) - 1; $x++)
+		{
+			$valorespecial = $arraytabela[$x][$pivoy] * -1;
+			if(!$somenteresultado)
+			{
+				echo "<h3>Processo Linha: ". ($x + 1)."</h3>";
+				echo "<br/>";
+			}
+			//echo "ValorEspcial: ". $valorespecial;
+			for($y = 0; $y < count($arraytabelacolunas); $y++)
+			{
+				if(!$somenteresultado)
+					echo "<h3>".$arraytabela[$pivox][$y]." * ".$valorespecial." + ".$arraytabela[$x][$y]." = ";
+				$arraytabela[$x][$y] = (($arraytabela[$pivox][$y]) * $valorespecial) + $arraytabela[$x][$y];
+				if(!$somenteresultado)
+					echo "".$arraytabela[$x][$y]."</h3>";
+			}
+			if(!$somenteresultado)
+				echo "<br/>";			
+		}
+		
+		/////////////////////////////////////////////////
+		//PRINTA TABELA:
+		if(!$somenteresultado)
+		{
+			echo "<h2>Tabela final da iteracao: </h2>";
+			PrintaTabela($arraytabelabase, $arraytabelacolunas, $arraytabela);
+		}
+		
+		$tentativas++;
+	}
+	while(CondicaoParada($arraytabela, $arraytabelacolunas, $arraytabelabase) == false ||  $qtdemaxima < $tentativas);
+	
+	PrintaFinais($arraytabelabase, $arraytabelacolunas, $arraytabela);
+	
+	echo "<h1> Tabela Final: </h1>";
+	PrintaTabela($arraytabelabase, $arraytabelacolunas, $arraytabela);
+	/////////////////////////////////////////////////
 	//FUNCOES:
+	function PrintaFinais($arraytabelabase, $arraytabelacolunas, $arraytabela)
+	{
+		echo "<h1> Variaveis Básicas: </h1>";
+		for($x = 0; $x < count($arraytabelabase); $x++)
+		{
+			echo "<h3>".$arraytabelabase[$x]." = ".$arraytabela[$x][count($arraytabelacolunas)- 1]."</h3>";
+		}
+		echo "<h1> Variaveis Não Básicas: </h1>";
+		$arraysubtract = array_diff($arraytabelacolunas, $arraytabelabase);
+		foreach ($arraysubtract as &$value) 
+		{
+			if($value == "b")
+				continue;
+			echo "<h3>".$value." = 0"."</h3>";
+		}
+	}
+	
+	function CondicaoParada($arraytabela, $arraytabelacolunas, $arraytabelabase)
+	{
+		$retorno = true;
+		for($y = 0; $y < count($arraytabelacolunas); $y++)
+		{
+			if($arraytabela[count($arraytabelabase) - 1][$y] < 0)
+				$retorno = false;
+		}
+		return $retorno;
+	}
+	function PrintaTabelaMenorValor($arraymenorvalorentrarbase)
+	{
+		echo "<table class=\"table2\">";
+		echo "<tbody>";
+		echo "<tr>";
+		echo "<td>";
+		echo "<br/>";
+		echo "Regras:  ";
+		echo "<br/>";
+		for ($x = 0 ; $x < count($arraymenorvalorentrarbase) ; $x++) 
+		{
+			echo ($x+1)."* - ";
+			if($arraymenorvalorentrarbase[$x][0] === null)
+			{
+				echo "Não efetua divisão";
+			}
+			else
+				echo $arraymenorvalorentrarbase[$x][1]." - ".$arraymenorvalorentrarbase[$x][0];
+			echo "<br/>";
+		}
+		echo "<br/>";
+		echo "</td>";
+		echo "</tr>";
+		echo "</tbody>";	
+		echo "</table>";	
+	}
+	
 	function PrintaInicio($funcao, $sujeito, $regraselementovalor, $qtdemaxima)
 	{
 		echo "<table class=\"table2\">";
