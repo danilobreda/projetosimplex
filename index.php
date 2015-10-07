@@ -2,6 +2,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Simplex</title>
+	<link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -71,7 +72,7 @@
 								</tr>
 								<tr>
 									<td>
-									<div ng-repeat="item in items">
+									<div ng-repeat="item in items" class="sujeito">
 										Sujeito {{$index + 1}}:
 										<input name="sujeito[]" type="text" id="regras" tabindex="2" size="20" > <= <input name="sujeito2[]" type="text" id="regras" tabindex="2" size="5">
 										<input type="button" id="btnRemover" value="Remover" style="width: 70px; height: 23px;" ng-click="remover($index)">
