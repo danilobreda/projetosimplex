@@ -34,7 +34,7 @@
       }
     </script>
 	<div ng-controller="principal" class="form">
-		<form action="simplex.php" method="POST">
+		<form action="simplex.php" method="POST" target="_blank">
 		<table class="table">
 			<tr>
 				<th>Método SIMPLEX </td>
@@ -72,7 +72,7 @@
 								<tr>
 									<td>
 									<div ng-repeat="item in items">
-										Sujeito a :
+										Sujeito {{$index + 1}}:
 										<input name="sujeito[]" type="text" id="regras" tabindex="2" size="20" > <= <input name="sujeito2[]" type="text" id="regras" tabindex="2" size="5">
 										<input type="button" id="btnRemover" value="Remover" style="width: 70px; height: 23px;" ng-click="remover($index)">
 										<br/>
