@@ -44,9 +44,10 @@
 						<fieldset class="field"><legend>Função Objetivo</legend>
 							<table align="center">
 								<tr>
-									<td colspan="2">
-										Exemplo: 3x1 + 5x2 + 6x3
+									<td colspan="2" class="exemplo">
+										Exemplo: 3x1 + 5x2
 									</td>
+									<br/>
 								</tr>
 								<tr>
 									<td>
@@ -66,7 +67,7 @@
 							<br/>
 							<table align="center">
 								<tr>
-									<td colspan="2">
+									<td colspan="2" class="exemplo">
 										Exemplo: 3x1 + 5x2  <=  2000	
 									</td>
 								</tr>
@@ -94,7 +95,7 @@
 							</table>
 						</fieldset>
 						<fieldset class="field"><legend>Parâmetros</legend>
-							<table>
+							<table class="botao">
 								<tr>
 									<td>Qtde. Máxima Iterações: </td>
 									<td><input type="text" name="qtdemaxima" id="qtdeMaximaIteracoes" tabindex="3" ></td>

@@ -1,25 +1,31 @@
 body{
 	font-family: 'Josefin Slab', serif;
 	font-weight: bold;
-	background-image: url('teste1.jpg');
+	background-image: url('imagemf.jpg');
 }
 
+legend{
+	color: white;
+}
+
+.exemplo{
+	color: rgba(255, 255, 255, 0.63);
+}
 .field{
     border-color:blue;
     border-style: solid;
 	font-weight: bold;
 	font-size: 25px;
 	margin-top: 10px;
-	background: rgba(0, 0, 0, 0.19);
+	background: rgb(37, 134, 176)
 
 }
-
 
 .field td{
 	font-weight: bold;
 	font-family: Arial;
 	font-size: 17px;
-}
+}imagemf
 .field td p{
 	font-size: 20px;
 	
@@ -28,10 +34,9 @@ body{
 th {
 	font-size: 50px;
     border: 20px;
-    color: black;
+    color: #B2DFFF;
 }
 .form {
-  position: fixed;
   left: 0;
   right: 0;
   z-index: 9999;
@@ -40,7 +45,7 @@ th {
 
 .table{
 	margin: 0px auto;
-	margin-top: 13%;
+	margin-top: 5%;
 }
 
 
@@ -113,7 +118,6 @@ th {
 	color: #000000;
 	font-size: 13px;
 	background: #61bffa;
-	padding: 5px 5px 5px 5px;
 	text-decoration: none;
 	font-weight: bold;	
 	margin-left: 5px;
