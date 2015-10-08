@@ -22,6 +22,7 @@
 	
 	/////////////////////////////////////////////////
 	//PRINTA INICIO:
+	echo "<br/><hr/>";
 	echo "<h1>Informações Iniciais:</h1>";
 	
 	PrintaInicio($funcao, $sujeito, $regraselementovalor, $qtdemaxima);
@@ -95,8 +96,10 @@
 	$finalx = 0;
 	for ($x = 0 ; $x < count($regraselementovalor); $x++) 
 	{
-		$arraytabelabase[$x] = $arraytodasbase[$x + (count($regraselementovalor) - 1)][0];
+		//$arraytabelabase[$x] = $arraytodasbase[$x + (count($regraselementovalor))][0];//MUDEI AQUI PARA ARRUMAR BUG, tava -1
+		$arraytabelabase[$x] = $arraytodasbase[$x + (count($arraytodasbase) - count($regraselementovalor))][0];//MUDEI AQUI PARA ARRUMAR BUG, tava -1
 		$finalx = $x;
+		//echo "DEBUG: ".$arraytabelabase[$x];
 	}
 		$arraytabelabase[$finalx + 1] = "z";
 	//COLUNAS:
@@ -173,7 +176,9 @@
 				{
 					if($primeirob == -1)
 						$primeirob = $x;
-					$arraytabela[$x][$y] = $arraytodasbase[$x - $primeirob + count($regraselementovalor) - 1][1];
+					//$arraytabela[$x][$y] = $arraytodasbase[$x - $primeirob + count($regraselementovalor)][1];//BUG TIREI O -1 PARA ARRUMAR
+					$arraytabela[$x][$y] = $arraytodasbase[$x - $primeirob + count($arraytodasbase) - count($regraselementovalor)][1];//BUG TIREI O -1 PARA ARRUMAR
+					//$x + (count($arraytodasbase) - count($regraselementovalor)
 				}
 			}
 			//echo $arraytabelabase[$x]."+".$arraytabelacolunas[$y]."=".$arraytabela[$x][$y];
@@ -184,7 +189,10 @@
 	/////////////////////////////////////////////////
 	//PRINTA TABELA:
 	if(!$somenteresultado)
+	{
+		echo "<br/><hr/>";
 		echo "<h1>Tabela Inicial:</h1>";
+	}
 	
 	if(!$somenteresultado)
 		PrintaTabela($arraytabelabase, $arraytabelacolunas, $arraytabela);
@@ -198,7 +206,10 @@
 		$YLETRA;
 		$XLETRA;
 		if(!$somenteresultado)
+		{
+			echo "<br/><hr/><hr/>";
 			echo "<h1> Iteracao: ".($tentativas + 1)."</h1>";
+		}
 		/////////////////////////////////////////////////
 		//MENOR VALOR DA TABELA:
 		$menorindicey = -1;//coluna do menor valor
@@ -315,25 +326,30 @@
 		if(!$somenteresultado)
 			echo "<h2>Tabela Após processo de divisao por linha:</h2>";
 		//echo "DEBUG: pivox+1: ".($pivox + 1);
-		for($x = $pivox + 1; $x <= count($arraytabelabase) - 1; $x++)
+		for($x = 0; $x <= count($arraytabelabase) - 1; $x++)
 		{
 			$valorespecial = $arraytabela[$x][$pivoy] * -1;
-			if(!$somenteresultado)
-			{
-				echo "<h3>Processo Linha: ". ($x + 1)."</h3>";
-				echo "<br/>";
-			}
-			//echo "ValorEspcial: ". $valorespecial;
-			for($y = 0; $y < count($arraytabelacolunas); $y++)
+			//echo "DEBUG: ".$valorespecial." != 0 || ".$x." != ".$pivox;
+			if($valorespecial != 0 && $x != $pivox)
 			{
 				if(!$somenteresultado)
-					echo "<h3>".$arraytabela[$pivox][$y]." * ".$valorespecial." + ".$arraytabela[$x][$y]." = ";
-				$arraytabela[$x][$y] = (($arraytabela[$pivox][$y]) * $valorespecial) + $arraytabela[$x][$y];
+				{
+					echo "<h3>Processo Linha: ". ($x + 1)."</h3>";
+					echo "<br/>";
+				}
 				if(!$somenteresultado)
-					echo "".$arraytabela[$x][$y]."</h3>";
+					echo "<h3>ValorEspecial: ". $valorespecial."</h3>";
+				for($y = 0; $y < count($arraytabelacolunas); $y++)
+				{
+					if(!$somenteresultado)
+						echo "<h3>".$arraytabela[$pivox][$y]." * ".$valorespecial." + ".$arraytabela[$x][$y]." = ";
+					$arraytabela[$x][$y] = (($arraytabela[$pivox][$y]) * $valorespecial) + $arraytabela[$x][$y];
+					if(!$somenteresultado)
+						echo "".$arraytabela[$x][$y]."</h3>";
+				}
+				if(!$somenteresultado)
+					echo "<br/>";			
 			}
-			if(!$somenteresultado)
-				echo "<br/>";			
 		}
 		
 		/////////////////////////////////////////////////
@@ -350,17 +366,20 @@
 	
 	PrintaFinais($arraytabelabase, $arraytabelacolunas, $arraytabela);
 	
+	echo "<br/><hr/>";
 	echo "<h1> Tabela Final: </h1>";
 	PrintaTabela($arraytabelabase, $arraytabelacolunas, $arraytabela);
 	/////////////////////////////////////////////////
 	//FUNCOES:
 	function PrintaFinais($arraytabelabase, $arraytabelacolunas, $arraytabela)
 	{
+		echo "<br/><hr/>";
 		echo "<h1> Variaveis Básicas: </h1>";
 		for($x = 0; $x < count($arraytabelabase); $x++)
 		{
 			echo "<h3>".$arraytabelabase[$x]." = ".$arraytabela[$x][count($arraytabelacolunas)- 1]."</h3>";
 		}
+		echo "<br/><hr/>";
 		echo "<h1> Variaveis Não Básicas: </h1>";
 		$arraysubtract = array_diff($arraytabelacolunas, $arraytabelabase);
 		foreach ($arraysubtract as &$value) 
