@@ -220,7 +220,7 @@
 		{
 			for ($y = 0 ; $y < count($arraytabelacolunas) - 1; $y++)//-1 pois tirei o ultimo elemento 'b'
 			{
-				if($menorvalor >= $arraytabela[$x][$y])
+				if($menorvalor >= $arraytabela[$x][$y])//BUG 2 
 				{
 					$menorvalor = $arraytabela[$x][$y];
 					//$menorindicex = $x;
@@ -232,7 +232,7 @@
 			echo "<h2> Menor valor encontrado: ".$menorvalor. "</h2>";
 		
 		/////////////////////////////////////////////////
-		//MENOR VALOR DA TABELA:
+		//EFETUA DIVISAO
 		$arraymenorvalorentrarbase = array();
 		for ($x = 0 ; $x < count($arraytabelabase) - 1; $x++) //-1 pois o 'Z' nao pode entrar.
 		{
@@ -260,14 +260,14 @@
 		}
 		
 		/////////////////////////////////////////////////
-		//MENOR VALOR DA TABELA:
+		//MENOR VALOR POS DIVISAO
 		$menorvalorentrarbaseX = -1;		
 		$menorvalorentrarbase = 99999999;
 		for ($x = 0 ; $x < count($arraymenorvalorentrarbase) ; $x++) 
 		{
 			if($arraymenorvalorentrarbase[$x][0] !== null)
 			{
-				if($arraymenorvalorentrarbase[$x][0] <= $menorvalorentrarbase)
+				if($arraymenorvalorentrarbase[$x][0] <= $menorvalorentrarbase && $arraymenorvalorentrarbase[$x][0] >= 0)
 				{
 					$menorvalorentrarbase = $arraymenorvalorentrarbase[$x][0];
 					$menorvalorentrarbaseX = $x;
@@ -280,6 +280,14 @@
 		$YLETRA = $arraytabelacolunas[$menorindicey];
 		
 		//echo "DEBUG: YLETRA: ".$YLETRA;
+		
+		//SOLUCAO ILIMITADA!
+		if($menorvalorentrarbase == 99999999)
+		{
+			echo "<h1>SOLUÇÃO ILIMITADA!</h1>";
+			die();
+			return;
+		}		
 		
 		if(!$somenteresultado)
 		{
