@@ -37,6 +37,7 @@
 	$funcaoelementos;//o array final da funcao objetiva
 	$regraselemento;//o array final 2d das regras
 	
+	$numerodef = 0;
 	/////////////////////////////////////////////////
 	//Arrumando funcao objetiva:
 	
@@ -86,6 +87,7 @@
 		$arraytodasbase[$index][0] = "f".($i+1);
 		$arraytodasbase[$index][1] = $regraselementovalor[$i];
 		$index++;
+		$numerodef++;
 	}
 	//print_r($arraytodasbase);
 	
@@ -369,8 +371,116 @@
 	echo "<br/><hr/>";
 	echo "<h1> Tabela Final: </h1>";
 	PrintaTabela($arraytabelabase, $arraytabelacolunas, $arraytabela);
+	
+	/////////////////////////////////////////////////
+	//ANALISE DE SENSIBILIDADE:
+	
+	echo "<br/><hr/>";
+	echo "<h1> Analise de Sensibilidade: </h1>";
+	$arraysensibilidade;
+	$arraysensibilidadeB;
+	$sensibilidadeX = count($arraytabelacolunas) - (count($arraytabelacolunas) - $numerodef - 1);
+	$sensibilidadeY = count($arraytabelabase) - 1;
+	//echo $sensibilidadeX . " - " . $sensibilidadeY;
+	//echo "<br/>";
+	$i = 0;
+	for($x = (count($arraytabelacolunas) - $numerodef - 1); $x <= count($arraytabelacolunas) - 2; $x++)
+	{
+		$arraysensibilidade[0][$i] = $arraytabela[count($arraytabelabase) - 1][$x];
+		//echo "R: " . $arraytabela[count($arraytabelabase) - 1][$x] . " | ";
+		for($y = 0; $y < count($arraytabelabase) - 1; $y++)
+		{
+			$arraysensibilidade[$y + 1][$i] = $arraytabela[$y][$x];
+			//echo $arraytabela[$y][$x];
+		}
+		$i++;
+	}
+	
+	for ($x = 0 ; $x < count($arraytabelabase); $x++)
+	{
+		$arraysensibilidadeB[$x] = $arraytabela[$x][count($arraytabelacolunas) - 1];
+		//echo $arraysensibilidadeB[$x]." | ";
+	}
+	/*for ($x = 0 ; $x < $sensibilidadeX; $x++)
+	{
+		for ($y = 0 ; $y < $sensibilidadeY; $y++)
+		{
+			echo $arraysensibilidade[$x][$y]." | ";
+		}
+		echo "<br/>";
+	}*/
+	
+	//COMPLETANDO TABELA FINAL:
+	for ($x = 0 ; $x < $sensibilidadeY; $x++)
+	{
+		$arraytabelasensibilidade[$x][0] = "R".($x + 1);//TIPO EX: r1, r2
+		$arraytabelasensibilidade[$x][1] = $arraysensibilidadeB[$x];//VALOR FIM
+		$arraytabelasensibilidade[$x][2] = $arraysensibilidade[0][$x];//Preço Sombra
+		
+		$arrayteste = array();
+		for ($y = 1 ; $y < $sensibilidadeY; $y++)
+		{
+			if($arraysensibilidade[$y][$x] != 0)
+			{
+				array_push($arrayteste, (($arraysensibilidadeB[$x] * -1) / $arraysensibilidade[$y][$x]));
+			}
+			//echo $arraysensibilidade[$y][$x] . " / " . ($arraysensibilidadeB[$x] * -1) . " = " . $arrayteste[$y - 1] . "<br/>";
+		}	
+		sort($arrayteste, SORT_NUMERIC);//ordem crescente
+		if($arrayteste[0] > 0)//checa validacao de negativo
+		{
+			$arrayteste[0] = $arrayteste[0] * -1;
+		}
+		$arraytesteA = 0;
+		$arraytesteB = 0;
+		for ($y = 0 ; $y < count($arrayteste) - 2; $y++)
+		{
+			if($arrayteste[$y] < 0 && $arrayteste[$y + 1] > 0)
+			{
+				$arraytesteA = $arrayteste[$y];
+				$arraytesteB = $arrayteste[$y + 1];
+				break;
+			}
+		}	
+		$arraytabelasensibilidade[$x][3] = $arraysensibilidadeB[$x] + $arraytesteA;	
+		$arraytabelasensibilidade[$x][4] = $arraysensibilidadeB[$x] + $arraytesteB;	
+	}
+	
+	PrintaTabelaSensibilidade($arraytabelasensibilidade, $sensibilidadeY);
+	
 	/////////////////////////////////////////////////
 	//FUNCOES:
+	function PrintaTabelaSensibilidade($arraytabelasensibilidade, $sensibilidadeY)
+	{
+		echo "<table class=\"table2\">";
+		//cabecalho
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th > - </th>";
+		echo "<th > Valor Fim</th>";
+		echo "<th > Preço Sombra </th>";
+		echo "<th > MIN </th>";
+		echo "<th > MAX </th>";
+		echo "</tr>";
+		echo"</thead>";
+		//itens
+		echo "<tbody>";
+		
+		for ($x = 0 ; $x < $sensibilidadeY; $x++)
+		{
+			echo "<tr>";
+			for ($y = 0 ; $y < count($arraytabelasensibilidade) - 1; $y++)
+			{
+				echo "<th>";
+				echo $arraytabelasensibilidade[$x][$y];
+				echo "</th>";
+			}
+			echo "</tr>";
+		}	
+		echo "</tbody>";		
+		echo "</table>";	
+	}
+	
 	function PrintaFinais($arraytabelabase, $arraytabelacolunas, $arraytabela)
 	{
 		echo "<br/><hr/>";
