@@ -435,7 +435,7 @@
 			//echo $arraysensibilidade[$y][$x] . " / " . ($arraysensibilidadeB[$x] * -1) . " = " . $arrayteste[$y - 1] . "<br/>";
 		}	
 		sort($arrayteste, SORT_NUMERIC);//ordem crescente
-		if($arrayteste[0] > 0)//checa validacao de negativo
+		if(isset($arrayteste[0]) && $arrayteste[0] > 0)//checa validacao de negativo
 		{
 			$arrayteste[0] = $arrayteste[0] * -1;
 		}
