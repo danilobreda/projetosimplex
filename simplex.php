@@ -445,7 +445,6 @@
 		$arraytabelasensibilidade[$x][3] = $arraysensibilidadeB[$x] + $arraytesteA;	
 		$arraytabelasensibilidade[$x][4] = $arraysensibilidadeB[$x] + $arraytesteB;	
 	}
-	
 	PrintaTabelaSensibilidade($arraytabelasensibilidade, $sensibilidadeY);
 	
 	/////////////////////////////////////////////////
@@ -469,7 +468,7 @@
 		for ($x = 0 ; $x < $sensibilidadeY; $x++)
 		{
 			echo "<tr>";
-			for ($y = 0 ; $y < count($arraytabelasensibilidade) - 1; $y++)
+			for ($y = 0 ; $y < count($arraytabelasensibilidade[$x]); $y++)
 			{
 				echo "<th>";
 				echo $arraytabelasensibilidade[$x][$y];
