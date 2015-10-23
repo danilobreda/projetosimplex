@@ -419,6 +419,7 @@
 	}*/
 	
 	//COMPLETANDO TABELA FINAL:
+	//print_r($arraysensibilidade);
 	for ($x = 0 ; $x < $sensibilidadeY; $x++)
 	{
 		$arraytabelasensibilidade[$x][0] = "R".($x + 1);//TIPO EX: r1, r2
@@ -426,13 +427,15 @@
 		$arraytabelasensibilidade[$x][2] = $arraysensibilidade[0][$x];//Preço Sombra
 		
 		$arrayteste = array();
-		for ($y = 1 ; $y < $sensibilidadeY; $y++)
+		for ($y = 1 ; $y < $sensibilidadeY + 1; $y++)
 		{
 			if($arraysensibilidade[$y][$x] != 0)
 			{
-				array_push($arrayteste, (($arraysensibilidadeB[$x] * -1) / $arraysensibilidade[$y][$x]));
+				array_push($arrayteste, (($arraysensibilidadeB[$y -1] * -1) / $arraysensibilidade[$y][$x]));
 			}
-			//echo $arraysensibilidade[$y][$x] . " / " . ($arraysensibilidadeB[$x] * -1) . " = " . $arrayteste[$y - 1] . "<br/>";
+			//echo ($arraysensibilidadeB[$y -1] * -1) . " / " . $arraysensibilidade[$y][$x] . " = " . (($arraysensibilidadeB[$y -1] * -1) / $arraysensibilidade[$y][$x]) . "<br/>";
+			//echo "x: " . $x . " y: ".$y . "<br/>";
+			//echo $arraysensibilidade[$y][$x] . " <br/>";
 		}	
 		sort($arrayteste, SORT_NUMERIC);//ordem crescente
 		if(isset($arrayteste[0]) && $arrayteste[0] > 0)//checa validacao de negativo
@@ -441,8 +444,12 @@
 		}
 		$arraytesteA = 0;
 		$arraytesteB = 0;
-		for ($y = 0 ; $y < count($arrayteste) - 2; $y++)
+		//print_r($arrayteste);
+		//echo "<br/>";
+		for ($y = 0 ; $y < count($arrayteste) - 1; $y++)
 		{
+			//echo $arrayteste[$y] . " - " . $arrayteste[$y + 1];
+			//echo "<br/>";
 			if($arrayteste[$y] < 0 && $arrayteste[$y + 1] > 0)
 			{
 				$arraytesteA = $arrayteste[$y];
@@ -450,6 +457,7 @@
 				break;
 			}
 		}	
+		
 		$arraytabelasensibilidade[$x][3] = $arraysensibilidadeB[$x] + $arraytesteA;	
 		$arraytabelasensibilidade[$x][4] = $arraysensibilidadeB[$x] + $arraytesteB;	
 	}
