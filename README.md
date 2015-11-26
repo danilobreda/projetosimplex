@@ -8,4 +8,4 @@ Este projeto foi desenvolvido utilizando HTML, CSS, PHP e JAVASCRIPT(ANGULARJS).
 * Jorge Takano Junior   RA:529754
 * Anderson Miyada   RA:525626
 
-## DEMO: [projetosimplex.esy.es](http://projetosimplex.esy.es)
+## DEMO: [www.prateleiragamer.com.br/projeto/](http://www.prateleiragamer.com.br/projeto/)

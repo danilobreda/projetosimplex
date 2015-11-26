@@ -15,8 +15,8 @@
 						<div class="botao">
 						<br/>
 						<center>
-							<input type="button" class="botao" style="margin-left: 0px; width: 200px; height: 100px;" onclick="window.location='/knapsackview.php'" value="KNAPSACK"/>
-							<input type="button" class="botao" style="margin-left: 0px; width: 200px; height: 100px;" onclick="window.location='/simplexview.php'" value="SIMPLEX"/>
+							<input type="button" class="botao" style="margin-left: 0px; width: 200px; height: 100px;" onclick="window.location='./knapsackview.php'" value="KNAPSACK"/>
+							<input type="button" class="botao" style="margin-left: 0px; width: 200px; height: 100px;" onclick="window.location='./simplexview.php'" value="SIMPLEX"/>
 							</center>
 						</div>
 					</td>
