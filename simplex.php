@@ -46,8 +46,9 @@
 	{
 		for ($i = 0; $i < count($funcaoexploded); $i++) 
 		{
-			$value = explode("x", $funcaoexploded[$i])[0];
-			$index = explode("x", $funcaoexploded[$i])[1] - 1;
+			$arrayexploded = explode("x", $funcaoexploded[$i]);
+			$value = $arrayexploded[0]; 
+			$index = $arrayexploded[1] - 1;
 			$funcaoelementos[$index] = $value;
 		}
 	}
@@ -62,8 +63,9 @@
 		
 		for ($j = 0; $j < count($regrasexploded); $j++) 
 		{
-			$value = explode("x", $regrasexploded[$j])[0];
-			$index = explode("x", $regrasexploded[$j])[1] - 1;
+			$arrayexploded = explode("x", $regrasexploded[$j]);
+			$value = $arrayexploded[0];
+			$index = $arrayexploded[1] - 1;
 			$regraselemento[$i][$index] = $value;
 		}
 	//print_r($regraselemento);
